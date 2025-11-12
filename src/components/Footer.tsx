@@ -1,0 +1,46 @@
+import { motion } from 'motion/react';
+import { Github, Linkedin, Twitter, Heart } from 'lucide-react';
+
+export function Footer() {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="py-8 px-4 border-t border-slate-800">
+      <div className="container mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-slate-400 text-sm flex items-center gap-2"
+          >
+            Made with <Heart className="text-red-500 fill-red-500" size={16} /> by Amina © {currentYear}
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="flex gap-4"
+          >
+            {[
+              { icon: Github, href: '#' },
+              { icon: Linkedin, href: '#' },
+              { icon: Twitter, href: '#' },
+            ].map((social, index) => (
+              <motion.a
+                key={index}
+                href={social.href}
+                whileHover={{ scale: 1.2, y: -3 }}
+                whileTap={{ scale: 0.9 }}
+                className="text-slate-400 hover:text-cyan-400 transition-colors"
+              >
+                <social.icon size={20} />
+              </motion.a>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </footer>
+  );
+}
