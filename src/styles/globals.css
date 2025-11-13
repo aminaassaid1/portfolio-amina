@@ -223,3 +223,12 @@ html {
     }
   }
 }
+
+/* Global button hover effect */
+@layer components {
+  button:hover,
+  [role="button"]:hover,
+  a.button:hover {
+    color: white !important;
+  }
+}

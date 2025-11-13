@@ -84,12 +84,12 @@ export function HeroSection() {
               className="flex flex-wrap gap-4 mb-8 justify-center lg:justify-start"
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all">
+                <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all text-white hover:text-white">
                   View My Work
                 </Button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
+                <Button variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 hover:shadow-lg hover:shadow-cyan-500/20 hover:text-white transition-all">
                   <Download className="mr-2 h-4 w-4" />
                   Download CV
                 </Button>
@@ -103,16 +103,18 @@ export function HeroSection() {
               className="flex gap-4 justify-center lg:justify-start"
             >
               {[
-                { icon: Github, href: '#', color: 'hover:bg-cyan-500/10' },
-                { icon: Linkedin, href: '#', color: 'hover:bg-blue-500/10' },
-                { icon: Twitter, href: '#', color: 'hover:bg-purple-500/10' },
+                { icon: Github, href: 'https://github.com/aminaassaid1', color: 'hover:bg-cyan-500/10', label: 'GitHub' },
+                { icon: Linkedin, href: 'https://www.linkedin.com/in/aminaassaid1', color: 'hover:bg-blue-500/10', label: 'LinkedIn' },
               ].map((social, index) => (
                 <motion.a
                   key={index}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.2, y: -5, rotate: 5 }}
                   whileTap={{ scale: 0.9 }}
                   className={`w-12 h-12 rounded-full bg-slate-800/50 backdrop-blur-sm border border-slate-700 flex items-center justify-center text-cyan-400 hover:border-cyan-500 transition-all shadow-lg hover:shadow-cyan-500/30 ${social.color}`}
+                  aria-label={social.label}
                 >
                   <social.icon size={20} />
                 </motion.a>

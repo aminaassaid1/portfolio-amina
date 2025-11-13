@@ -46,17 +46,11 @@ export function Header() {
     >
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <motion.a
-            href="#home"
-            onClick={(e) => scrollToSection(e, '#home')}
-            whileHover={{ scale: 1.05 }}
-            className="text-2xl bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
-          >
-            {"<Portfolio />"}
-          </motion.a>
+          {/* Placeholder for balance on desktop (invisible) */}
+          <div className="hidden md:block w-[100px]"></div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Menu - Center */}
+          <div className="hidden md:flex items-center gap-8 mx-auto">
             {navItems.map((item, index) => (
               <motion.a
                 key={item.href}
@@ -71,16 +65,20 @@ export function Header() {
                 {item.label}
               </motion.a>
             ))}
-            <a href="#contact" className="inline-block">
-  <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600">
-    Contact 
-  </Button>
-</a>
+          </div>
+
+          {/* Contact Button - Right Side (Desktop) */}
+          <div className="hidden md:block">
+            <a href="#contact" onClick={(e) => scrollToSection(e, '#contact')}>
+              <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white hover:text-white">
+                Contact
+              </Button>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-white ml-auto"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -105,9 +103,11 @@ export function Header() {
                 {item.label}
               </a>
             ))}
-            <Button href="#contact" className="w-full mt-4 bg-gradient-to-r from-cyan-500 to-blue-500">
-              Hire Me
-            </Button>
+            <a href="#contact" onClick={(e) => scrollToSection(e, '#contact')} className="block">
+              <Button className="w-full mt-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white hover:text-white">
+                Contact
+              </Button>
+            </a>
           </motion.div>
         )}
       </nav>
