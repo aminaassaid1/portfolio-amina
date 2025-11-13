@@ -25,9 +25,9 @@ export function ProjectGallery() {
     {
       title: 'Sushi Pro',
       category: 'WordPress Development',
-      description: 'A fully responsive sushi restaurant website with online ordering and reservations.',
+      description: 'Sushi restaurant website',
       image: sushiProImage,
-      tags: ['WordPress', 'WooCommerce', 'Responsive Design'],
+      tags: ['WordPress'],
       link: 'http://sushipro.ma/',
       details: {
         client: 'Sushi Pro Restaurant',
@@ -38,9 +38,9 @@ export function ProjectGallery() {
     {
       title: 'Dépannage Auto 24/7',
       category: 'WordPress Development',
-      description: 'A 24/7 auto towing service platform with emergency request system and real-time tracking.',
+      description: 'Auto towing service platform',
       image: 'https://images.unsplash.com/photo-1742069028875-93c524b6fa95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhdXRvJTIwdG93aW5nJTIwc2VydmljZSUyMHRydWNrfGVufDF8fHx8MTc2MzAzNjEzM3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-      tags: ['WordPress', 'Custom Plugin', 'Google Maps API'],
+      tags: ['WordPress'],
       link: 'https://depannauto247.fr/',
       details: {
         client: 'Dépannage Auto 24/7',
@@ -51,9 +51,9 @@ export function ProjectGallery() {
     {
       title: 'Talensio',
       category: 'WordPress Development',
-      description: 'A professional training center website with course enrollment and student portal.',
+      description: 'Professional training center website',
       image: talensioImage,
-      tags: ['WordPress', 'LMS', 'E-Learning'],
+      tags: ['WordPress'],
       link: 'https://talensio.ma/',
       details: {
         client: 'Talensio Training Center',
@@ -195,7 +195,7 @@ export function ProjectGallery() {
                 <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 inline-block">
                   <Users className="text-cyan-400 mb-2" size={20} />
                   <p className="text-xs text-slate-400">Client</p>
-                  <p className="text-sm">{selectedProject.details.client}</p>
+                  <p style={{ color: 'white' }} className="text-sm">{selectedProject.details.client}</p>
                 </div>
 
                 {/* Project Description */}
