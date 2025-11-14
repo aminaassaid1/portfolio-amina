@@ -1,11 +1,10 @@
+# Portfolio Website
 
-  # Dark-Themed Developer Portfolio
+This is my personal portfolio website built with React and TypeScript.
 
-  This is a code bundle for Dark-Themed Developer Portfolio. The original project is available at https://www.figma.com/design/IX9wvqGGeR2yR3t3NTuVWc/Dark-Themed-Developer-Portfolio.
+## Contact
 
-  ## Running the code
-
-  Run `npm i` to install the dependencies.
-
-  Run `npm run dev` to start the development server.
-  
+- Email: aminassaid123@gmail.com
+- Phone: +212 67 46 57 146
+- GitHub: [github.com/aminaassaid1](https://github.com/aminaassaid1)
+- LinkedIn: [linkedin.com/in/aminaassaid1](https://www.linkedin.com/in/aminaassaid1)

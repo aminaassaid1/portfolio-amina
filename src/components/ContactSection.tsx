@@ -1,6 +1,6 @@
 import { motion, useInView } from 'motion/react';
 import { useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -23,6 +23,7 @@ export function ContactSection() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const validateForm = () => {
     const newErrors = {
@@ -81,26 +82,61 @@ export function ContactSection() {
     }
 
     setIsSubmitting(true);
+    setSubmitError(false);
+    setSubmitSuccess(false);
     
-    // Simulate form submission
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
-      
-      // Reset form after successful submission
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
+    try {
+      // Using Web3Forms API - Free service that sends emails
+      // Sign up at https://web3forms.com to get your access key
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', // Replace with your Web3Forms access key
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to: 'aminaassaid123@gmail.com',
+          from_name: formData.name,
+          replyto: formData.email,
+        }),
       });
 
-      // Hide success message after 5 seconds
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitSuccess(true);
+        
+        // Reset form after successful submission
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        });
+
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          setSubmitSuccess(false);
+        }, 5000);
+      } else {
+        setSubmitError(true);
+        setTimeout(() => {
+          setSubmitError(false);
+        }, 5000);
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitError(true);
       setTimeout(() => {
-        setSubmitSuccess(false);
+        setSubmitError(false);
       }, 5000);
-    }, 1500);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -120,15 +156,25 @@ export function ContactSection() {
   };
 
   const contactInfo = [
-    { icon: Mail, label: 'Email', value: 'aminassaid123@gmail.com' },
-    { icon: Phone, label: 'Phone', value: '+212 67 46 57 146' },
-    { icon: MapPin, label: 'Location', value: 'Morocco' },
+    { icon: Mail, label: 'Email', value: 'aminassaid123@gmail.com', href: 'mailto:aminassaid123@gmail.com' },
+    { icon: Phone, label: 'Phone', value: '+212 67 46 57 146', href: 'tel:+212674657146' },
+    { icon: MapPin, label: 'Location', value: 'Morocco', href: null },
   ];
 
   return (
     <section id="contact" ref={ref} className="py-20 px-4 md:px-6 lg:px-8 md:py-28 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none" />
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none"
+        animate={{
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
       
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
@@ -137,13 +183,23 @@ export function ContactSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="mb-4">
+          <motion.h2 
+            className="mb-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             Let's Discuss Your <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Project</span>
-          </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            className="text-slate-400 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             Have a project in mind? Let's work together to bring your ideas to life. 
             Fill out the form below or reach out directly.
-          </p>
+          </motion.p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
@@ -154,7 +210,7 @@ export function ContactSection() {
             transition={{ duration: 0.6 }}
             className="flex flex-col items-center lg:items-start"
           >
-            {/* Illustration - Minimized Size - MOVED TO TOP */}
+            {/* Illustration */}
             <motion.div
               animate={{
                 y: [0, -15, 0],
@@ -166,7 +222,18 @@ export function ContactSection() {
               }}
               className="relative w-48 mx-auto lg:mx-0 mb-8"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 blur-3xl rounded-full" />
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 blur-3xl rounded-full"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
               <img
                 src={heroImage}
                 alt="Contact illustration"
@@ -177,22 +244,30 @@ export function ContactSection() {
             {/* Contact Info */}
             <div className="space-y-6 w-full">
               {contactInfo.map((item, index) => (
-                <motion.div
+                <motion.a
                   key={index}
+                  href={item.href || undefined}
+                  target={item.href ? '_blank' : undefined}
+                  rel={item.href ? 'noopener noreferrer' : undefined}
                   initial={{ opacity: 0, x: -30 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: index * 0.1 + 0.2 }}
-                  whileHover={{ x: 10 }}
-                  className="flex items-center gap-4 p-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl hover:border-cyan-500/50 transition-colors"
+                  whileHover={{ x: 10, scale: 1.02 }}
+                  className={`flex items-center gap-4 p-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl hover:border-cyan-500/50 transition-all ${
+                    item.href ? 'cursor-pointer' : 'cursor-default'
+                  }`}
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <motion.div 
+                    className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center flex-shrink-0"
+                    whileHover={{ rotate: 5, scale: 1.1 }}
+                  >
                     <item.icon className="text-white" size={20} />
-                  </div>
+                  </motion.div>
                   <div className="min-w-0">
                     <p className="text-slate-400 text-sm">{item.label}</p>
                     <p className="text-white truncate">{item.value}</p>
                   </div>
-                </motion.div>
+                </motion.a>
               ))}
             </div>
           </motion.div>
@@ -206,11 +281,18 @@ export function ContactSection() {
             {/* Success Message */}
             {submitSuccess && (
               <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.9 }}
                 className="mb-6 p-4 bg-green-500/10 border border-green-500/50 rounded-xl flex items-center gap-3"
               >
-                <CheckCircle className="text-green-500" size={24} />
+                <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                >
+                  <CheckCircle className="text-green-500" size={24} />
+                </motion.div>
                 <div>
                   <p className="text-green-500 font-semibold">Message sent successfully!</p>
                   <p className="text-green-400/80 text-sm">I'll get back to you as soon as possible.</p>
@@ -218,8 +300,40 @@ export function ContactSection() {
               </motion.div>
             )}
 
+            {/* Error Message */}
+            {submitError && (
+              <motion.div
+                initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl flex items-center gap-3"
+              >
+                <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                >
+                  <AlertCircle className="text-red-500" size={24} />
+                </motion.div>
+                <div>
+                  <p className="text-red-500 font-semibold">Failed to send message</p>
+                  <p className="text-red-400/80 text-sm">Please try again or contact me directly via email.</p>
+                </div>
+              </motion.div>
+            )}
+
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl blur-xl" />
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl blur-xl"
+                animate={{
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
               
               <form
                 onSubmit={handleSubmit}
@@ -245,7 +359,13 @@ export function ContactSection() {
                       }`}
                     />
                     {errors.name && (
-                      <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                      <motion.p 
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-500 text-sm mt-1"
+                      >
+                        {errors.name}
+                      </motion.p>
                     )}
                   </motion.div>
 
@@ -269,7 +389,13 @@ export function ContactSection() {
                       }`}
                     />
                     {errors.email && (
-                      <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                      <motion.p 
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-500 text-sm mt-1"
+                      >
+                        {errors.email}
+                      </motion.p>
                     )}
                   </motion.div>
 
@@ -292,7 +418,13 @@ export function ContactSection() {
                       }`}
                     />
                     {errors.subject && (
-                      <p className="text-red-500 text-sm mt-1">{errors.subject}</p>
+                      <motion.p 
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-500 text-sm mt-1"
+                      >
+                        {errors.subject}
+                      </motion.p>
                     )}
                   </motion.div>
 
@@ -316,7 +448,13 @@ export function ContactSection() {
                       }`}
                     />
                     {errors.message && (
-                      <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+                      <motion.p 
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-500 text-sm mt-1"
+                      >
+                        {errors.message}
+                      </motion.p>
                     )}
                   </motion.div>
 
@@ -325,27 +463,32 @@ export function ContactSection() {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.6 }}
                   >
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      {isSubmitting ? (
-                        <>
-                          <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                            className="mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full"
-                          />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="mr-2 h-4 w-4" />
-                          Send Message
-                        </>
-                      )}
-                    </Button>
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                              className="mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full"
+                            />
+                            Sending...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="mr-2 h-4 w-4" />
+                            Send Message
+                          </>
+                        )}
+                      </Button>
+                    </motion.div>
                   </motion.div>
                 </div>
               </form>

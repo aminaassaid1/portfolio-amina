@@ -12,8 +12,9 @@ import {
 } from './ui/dialog';
 import Slider from 'react-slick';
 
-import sushiProImage from 'figma:asset/760aaa914b32198ff8cc7c10b942acd399f838b4.png';
-import talensioImage from 'figma:asset/2bf43e0eb00df15be7d881e3dc771482a4a20411.png';
+import sushiProImage from '../assets/760aaa914b32198ff8cc7c10b942acd399f838b4.png';
+import talensioImage from '../assets/2bf43e0eb00df15be7d881e3dc771482a4a20411.png';
+import depannageAutoImage from '../assets/7ef8ab020bf567f94c8579764f62b16e1d5825b5.png';
 
 export function ProjectGallery() {
   const ref = useRef(null);
@@ -39,7 +40,7 @@ export function ProjectGallery() {
       title: 'Dépannage Auto 24/7',
       category: 'WordPress Development',
       description: 'Auto towing service platform',
-      image: 'https://images.unsplash.com/photo-1742069028875-93c524b6fa95?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhdXRvJTIwdG93aW5nJTIwc2VydmljZSUyMHRydWNrfGVufDF8fHx8MTc2MzAzNjEzM3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: depannageAutoImage,
       tags: ['WordPress'],
       link: 'https://depannauto247.fr/',
       details: {
@@ -95,8 +96,18 @@ export function ProjectGallery() {
 
   return (
     <section id="projects" ref={ref} className="py-20 px-4 md:px-6 lg:px-8 md:py-28 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none" />
+      {/* Background decoration with animation */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none"
+        animate={{
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
       
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
@@ -105,31 +116,45 @@ export function ProjectGallery() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="mb-4">
+          <motion.h2 
+            className="mb-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Recent Projects</span>
-          </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            className="text-slate-400 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             Check out some of my latest work. Each project represents a unique challenge 
             and showcases different skills and technologies.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Carousel Container */}
         <div className="relative px-4 md:px-16">
-          {/* Custom Navigation Buttons */}
-          <button
+          {/* Custom Navigation Buttons with enhanced animations */}
+          <motion.button
             onClick={() => sliderRef.current?.slickPrev()}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-slate-800/80 backdrop-blur-sm border border-cyan-500/50 rounded-full flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 transition-all shadow-lg shadow-cyan-500/20 hover:scale-110"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-slate-800/80 backdrop-blur-sm border border-cyan-500/50 rounded-full flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 transition-all shadow-lg shadow-cyan-500/20"
+            whileHover={{ scale: 1.1, x: -4 }}
+            whileTap={{ scale: 0.95 }}
           >
             <ChevronLeft size={24} />
-          </button>
+          </motion.button>
           
-          <button
+          <motion.button
             onClick={() => sliderRef.current?.slickNext()}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-slate-800/80 backdrop-blur-sm border border-cyan-500/50 rounded-full flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 transition-all shadow-lg shadow-cyan-500/20 hover:scale-110"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-slate-800/80 backdrop-blur-sm border border-cyan-500/50 rounded-full flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 transition-all shadow-lg shadow-cyan-500/20"
+            whileHover={{ scale: 1.1, x: 4 }}
+            whileTap={{ scale: 0.95 }}
           >
             <ChevronRight size={24} />
-          </button>
+          </motion.button>
 
           {/* Carousel */}
           <Slider ref={sliderRef} {...sliderSettings}>
@@ -152,9 +177,14 @@ export function ProjectGallery() {
           transition={{ delay: 0.6 }}
           className="text-center mt-16"
         >
-          <Button variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 hover:text-white hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
-            View All Projects
-          </Button>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 hover:text-white hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
+              View All Projects
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
 
@@ -162,7 +192,11 @@ export function ProjectGallery() {
       <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-slate-900 border-slate-700">
           {selectedProject && (
-            <>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
               <DialogHeader>
                 <DialogTitle className="text-2xl bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
                   {selectedProject.title}
@@ -173,64 +207,96 @@ export function ProjectGallery() {
               </DialogHeader>
 
               <div className="space-y-6">
-                {/* Project Image */}
-                <div className="relative h-64 rounded-xl overflow-hidden">
+                {/* Project Image with improved fitting */}
+                <motion.div 
+                  className="relative h-64 rounded-xl overflow-hidden bg-slate-800"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 }}
+                >
                   {typeof selectedProject.image === 'string' ? (
                     <ImageWithFallback
                       src={selectedProject.image}
                       alt={selectedProject.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   ) : (
                     <img
                       src={selectedProject.image}
                       alt={selectedProject.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent" />
-                </div>
+                </motion.div>
 
                 {/* Project Info */}
-                <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 inline-block">
+                <motion.div 
+                  className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 inline-block"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
                   <Users className="text-cyan-400 mb-2" size={20} />
                   <p className="text-xs text-slate-400">Client</p>
                   <p style={{ color: 'white' }} className="text-sm">{selectedProject.details.client}</p>
-                </div>
+                </motion.div>
 
                 {/* Project Description */}
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
                   <h4 className="mb-3 text-cyan-400">Project Overview</h4>
                   <p className="text-slate-300 leading-relaxed">{selectedProject.details.description}</p>
-                </div>
+                </motion.div>
 
                 {/* Technologies */}
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
                   <h4 className="mb-3">Technologies Used</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedProject.details.technologies.map((tech: string, i: number) => (
-                      <span
+                      <motion.span
                         key={i}
                         className="px-4 py-2 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/20 rounded-full text-sm text-cyan-300"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.5 + i * 0.1 }}
+                        whileHover={{ scale: 1.05 }}
                       >
                         {tech}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Action Button */}
-                <div className="pt-4">
-                  <Button
-                    className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 hover:text-white"
-                    onClick={() => window.open(selectedProject.link, '_blank')}
+                <motion.div 
+                  className="pt-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    View Live Project
-                  </Button>
-                </div>
+                    <Button
+                      className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 hover:text-white"
+                      onClick={() => window.open(selectedProject.link, '_blank')}
+                    >
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      View Live Project
+                    </Button>
+                  </motion.div>
+                </motion.div>
               </div>
-            </>
+            </motion.div>
           )}
         </DialogContent>
       </Dialog>
@@ -264,77 +330,162 @@ export function ProjectGallery() {
 }
 
 function ProjectCard({ project, index, isInView, onViewDetails }: any) {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.2, duration: 0.6 }}
       className="group relative h-full"
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl blur-xl"
+        animate={{
+          opacity: isHovered ? 1 : 0,
+          scale: isHovered ? 1.05 : 1,
+        }}
+        transition={{ duration: 0.3 }}
+      />
       
-      <div className="relative bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl overflow-hidden hover:border-cyan-500/50 transition-all h-full flex flex-col">
-        {/* Image */}
-        <div className="relative h-56 overflow-hidden">
+      <motion.div 
+        className="relative bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl overflow-hidden transition-all h-full flex flex-col"
+        whileHover={{ 
+          borderColor: 'rgba(34, 211, 238, 0.5)',
+          y: -8
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        {/* Image with better fitting */}
+        <div className="relative h-56 overflow-hidden bg-slate-900/50">
           <motion.div
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.4 }}
-            className="h-full"
+            className="h-full w-full"
           >
             {typeof project.image === 'string' ? (
               <ImageWithFallback
                 src={project.image}
                 alt={project.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
               />
             ) : (
               <img
                 src={project.image}
                 alt={project.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
               />
             )}
           </motion.div>
           
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+          {/* Overlay with staggered animation */}
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent flex items-center justify-center gap-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
             <motion.button
               onClick={onViewDetails}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
               className="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center text-white hover:bg-cyan-600 transition-colors shadow-lg shadow-cyan-500/50"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ 
+                scale: isHovered ? 1 : 0,
+                rotate: isHovered ? 0 : -180
+              }}
+              transition={{ 
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+                delay: 0.1
+              }}
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileTap={{ scale: 0.95 }}
             >
               <ExternalLink size={20} />
             </motion.button>
-          </div>
+          </motion.div>
+          
+          {/* Animated shine effect */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+            initial={{ x: '-100%' }}
+            animate={{ x: isHovered ? '200%' : '-100%' }}
+            transition={{ duration: 0.6 }}
+          />
         </div>
 
         {/* Content */}
         <div className="p-6 flex flex-col flex-grow">
-          <p className="text-cyan-400 text-sm mb-2">{project.category}</p>
-          <h3 className="mb-2">{project.title}</h3>
-          <p className="text-slate-400 text-sm mb-4 flex-grow">{project.description}</p>
+          <motion.p 
+            className="text-cyan-400 text-sm mb-2"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.2 + 0.3 }}
+          >
+            {project.category}
+          </motion.p>
           
-          <div className="flex flex-wrap gap-2 mb-4">
+          <motion.h3 
+            className="mb-2"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.2 + 0.4 }}
+          >
+            {project.title}
+          </motion.h3>
+          
+          <motion.p 
+            className="text-slate-400 text-sm mb-4 flex-grow"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: index * 0.2 + 0.5 }}
+          >
+            {project.description}
+          </motion.p>
+          
+          <motion.div 
+            className="flex flex-wrap gap-2 mb-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.2 + 0.6 }}
+          >
             {project.tags.map((tag: string, i: number) => (
-              <span
+              <motion.span
                 key={i}
                 className="px-3 py-1 bg-slate-700/50 rounded-full text-xs text-slate-300"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.2 + 0.7 + i * 0.1 }}
+                whileHover={{ scale: 1.05, backgroundColor: 'rgba(34, 211, 238, 0.1)' }}
               >
                 {tag}
-              </span>
+              </motion.span>
             ))}
-          </div>
+          </motion.div>
 
-          <Button
-            onClick={onViewDetails}
-            variant="outline"
-            className="w-full border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500 hover:text-white hover:shadow-lg hover:shadow-cyan-500/30 transition-all"
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.2 + 0.8 }}
           >
-            View Details
-          </Button>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Button
+                onClick={onViewDetails}
+                variant="outline"
+                className="w-full border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500 hover:text-white hover:shadow-lg hover:shadow-cyan-500/30 transition-all"
+              >
+                View Details
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
