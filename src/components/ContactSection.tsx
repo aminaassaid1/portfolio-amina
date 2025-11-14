@@ -1,4 +1,4 @@
-import { motion, useInView } from 'motion/react';
+import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { Button } from './ui/button';

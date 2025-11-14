@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, useInView } from 'motion/react';
+import { motion, useInView } from 'framer-motion';
 import { Code, Award, Users, Sparkles } from 'lucide-react';
 
 export function AboutSection() {

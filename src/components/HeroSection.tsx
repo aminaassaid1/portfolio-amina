@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Github, Linkedin, Twitter, Download, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
 import heroImage from 'figma:asset/31f70878e133baca8a4bd12b5a9812a5d9a05532.png';

@@ -1,4 +1,4 @@
-import { motion, useInView } from 'motion/react';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Blocks, Code2, TrendingUp, Star } from 'lucide-react';
 import { Button } from './ui/button';
